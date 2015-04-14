@@ -66,7 +66,7 @@ public class MainActivity extends Activity implements ImgListener {
         ImgSearcher.shareInstance().setListener(this);
         mInitSucc = ImgSearcher.shareInstance().init(this, screKey);
         if (mInitSucc != 0) {
-            Toast.makeText(this, "初始化失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "初始化失败 ", Toast.LENGTH_SHORT).show();
         }
     }
     //******************程序首页UI布局函数：initMainUI()***********************************************
