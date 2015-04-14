@@ -154,7 +154,7 @@ public class MainActivity extends Activity implements ImgListener {
             mInitSucc = ImgSearcher.shareInstance().init(this, screKey);
         }
         if (mInitSucc != 0) {
-            Toast.makeText(this, "初始化失败la!!!",
+            Toast.makeText(this, "初始化失败lala!!!",
                     Toast.LENGTH_SHORT).show();
             return -1;
         }
