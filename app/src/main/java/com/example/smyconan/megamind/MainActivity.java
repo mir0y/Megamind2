@@ -12,8 +12,10 @@ import com.qq.wx.img.imgsearcher.ImgSearcher;
 import com.qq.wx.img.imgsearcher.ImgSearcherState;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -58,6 +60,15 @@ public class MainActivity extends Activity implements ImgListener {
             //不等于null，表示有消息传递过来，这个消息中包含元组（属性名称(String类型),属性值(File路径类型)）；
             imgFileName = savedInstanceState.getString("imgFileName");
         }
+
+
+        db dbtest = new db(this);
+        SQLiteDatabase dbwrite = dbtest.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("fname","嚓嚓嚓");
+        cv.put("md5", "asdfalsdfjiuohgoa");
+        dbwrite.insert("user",null,cv);
+
         initMainUI();
         preInitImg();
     }

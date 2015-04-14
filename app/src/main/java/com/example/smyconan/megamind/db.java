@@ -12,12 +12,14 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class db extends SQLiteOpenHelper{
 
-    public db(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, "db", factory, version);
+    public db(Context context) {
+        super(context, "db", null, 1);
     }
 
     public void onCreate(SQLiteDatabase db) {
-
+        db.execSQL("CREATE TABLE user(" +
+                "fname TEXT DEFAULT \"\"," +
+                "fmd5 TEXT DEFAULT \"\")");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersin, int newVersion) {
