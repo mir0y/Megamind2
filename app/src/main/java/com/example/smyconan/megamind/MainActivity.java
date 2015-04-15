@@ -64,7 +64,9 @@ public class MainActivity extends Activity implements ImgListener {
 
         db dbtest = new db(this);
         SQLiteDatabase dbwrite = dbtest.getWritableDatabase();
-        ContentValues cv = new ContentValues();
+        ContentValues cv;
+
+        cv = new ContentValues();
         cv.put("fname","手机管家广告");
         cv.put("fmd5", "030ba16df0a060e3815392a4e4e22d63");
         dbwrite.insert("user",null,cv);
