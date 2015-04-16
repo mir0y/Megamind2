@@ -45,6 +45,7 @@ public class MainActivity extends Activity implements ImgListener {
     private TextView mTextView;
     private db dbtest;
     SQLiteDatabase dbwrite;
+    SQLiteDatabase dbread;
     //参数变量
     final int TAKE_PICTURE = 1;
     final int FROM_ALBUM = 2;
@@ -66,6 +67,10 @@ public class MainActivity extends Activity implements ImgListener {
         dbtest = new db(this);
         createDB.Create(dbtest);
         dbwrite  = createDB.dbwrite;
+        dbwrite.close();
+        createDB.Read(dbtest);
+        dbread = createDB.dbread;
+
         initMainUI();
         preInitImg();
     }
@@ -220,12 +225,12 @@ public class MainActivity extends Activity implements ImgListener {
         }
         bundle.putString("url", mResUrl);
         bundle.putString("md5", mResMD5);
-        Cursor c = dbwrite.rawQuery("select * from md52name where fmd5=?",new String[]{mResMD5});
+        Cursor c = dbread.rawQuery("select * from md52name where fmd5=?",new String[]{mResMD5});
         if (c.moveToFirst()){   c.move(0);
             String s;
             s = c.getString(c.getColumnIndex("fname"));
             bundle.putString("picDesc",s);
-            Cursor t = dbwrite.rawQuery("select * from detail where fname=?",new String[]{s});
+            Cursor t = dbread.rawQuery("select * from detail where fname=?",new String[]{s});
             if (t.moveToFirst()) {
                 t.move(0);
                 bundle.putString("Date", t.getString(t.getColumnIndex("fdate")));

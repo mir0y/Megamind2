@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class createDB {
     public static SQLiteDatabase dbwrite;
+    public static SQLiteDatabase dbread;
+
     public static void Create(db dbtest){
         dbwrite = dbtest.getWritableDatabase();
         ContentValues cv;
@@ -30,5 +32,11 @@ public class createDB {
         cv.put("fname","腾讯读书广告");
         cv.put("fdate","2015-4-16");
         dbwrite.insert("detail",null,cv);
+        dbwrite.close();
     }
+
+    public static void Read(db dbtest) {
+        dbread = dbtest.getReadableDatabase();
+    }
+
 }
