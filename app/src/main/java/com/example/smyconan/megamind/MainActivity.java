@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -42,6 +43,8 @@ public class MainActivity extends Activity implements ImgListener {
     //结果页
     private Button mCancelBtn;
     private TextView mTextView;
+    private db dbtest;
+    SQLiteDatabase dbwrite;
     //参数变量
     final int TAKE_PICTURE = 1;
     final int FROM_ALBUM = 2;
@@ -62,18 +65,28 @@ public class MainActivity extends Activity implements ImgListener {
         }
 
 
-        db dbtest = new db(this);
-        SQLiteDatabase dbwrite = dbtest.getWritableDatabase();
+        dbtest = new db(this);
+        dbwrite = dbtest.getWritableDatabase();
         ContentValues cv;
 
         cv = new ContentValues();
         cv.put("fname","手机管家广告");
         cv.put("fmd5", "030ba16df0a060e3815392a4e4e22d63");
-        dbwrite.insert("user",null,cv);
+        dbwrite.insert("md52name", null, cv);
+        cv = new ContentValues();
+        cv.put("fname","手机管家广告");
+        cv.put("fdate","2015-4-16");
+        dbwrite.insert("detail",null,cv);
+
         cv = new ContentValues();
         cv.put("fname","腾讯读书广告");
         cv.put("fmd5", "a9a58b59625b7d413c2a0348efd41ab4");
-        dbwrite.insert("user",null,cv);
+        dbwrite.insert("md52name",null,cv);
+        cv = new ContentValues();
+        cv.put("fname","腾讯读书广告");
+        cv.put("fdate","2015-4-16");
+        dbwrite.insert("detail",null,cv);
+
 
         initMainUI();
         preInitImg();
@@ -171,7 +184,7 @@ public class MainActivity extends Activity implements ImgListener {
             mInitSucc = ImgSearcher.shareInstance().init(this, screKey);
         }
         if (mInitSucc != 0) {
-            Toast.makeText(this, "初始化失败lala!!!",
+            Toast.makeText(this, "初始化失败",
                     Toast.LENGTH_SHORT).show();
             return -1;
         }
@@ -223,13 +236,20 @@ public class MainActivity extends Activity implements ImgListener {
         bundle.putBoolean("ret", isFound);
         bundle.putString("url", mResUrl);
         bundle.putString("md5", mResMD5);
-        bundle.putString("picDesc", mResPicDesc);
-        it.putExtras(bundle);       // it.putExtra(“test”, "shuju”);
+        Cursor c = dbwrite.rawQuery("select * from md52name where fmd5=?",new String[]{mResMD5});
+        if (c.moveToFirst()){   c.move(0);
+            String s;
+            s = c.getString(c.getColumnIndex("fname"));
+            bundle.putString("picDesc",s);
+            Cursor t = dbwrite.rawQuery("select * from detail where fname=?",new String[]{s});
+            if (t.moveToFirst()) {
+                t.move(0);
+                bundle.putString("Date", t.getString(t.getColumnIndex("fdate")));
+            }
+        }
+        it.putExtras(bundle);
         startActivity(it);
-        /*
-        Intent it = new Intent(MainActivity.this, WebActivity.class);
-        startActivity(it);
-        */
+
         finish();
     }
     @Override

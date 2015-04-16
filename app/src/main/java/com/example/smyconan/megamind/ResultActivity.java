@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.app.Activity;
 import android.content.Intent;
 
+import org.w3c.dom.Text;
+
 
 public class ResultActivity extends Activity {
 
@@ -27,6 +29,7 @@ public class ResultActivity extends Activity {
     private String mResUrl;
     private String mResMD5;
     private String mResPicDesc;
+    private String mResDate;
 
     private Bitmap mResBitmap;
 
@@ -49,6 +52,8 @@ public class ResultActivity extends Activity {
             mResUrl = bundle.getString("url");
             mResMD5 = bundle.getString("md5");
             mResPicDesc = bundle.getString("picDesc");
+            mResDate = bundle.getString("Date");
+
             resultUI(true);
         }
         else {
@@ -58,20 +63,28 @@ public class ResultActivity extends Activity {
 
     public void resultUI(boolean isFound) {
         setContentView(R.layout.result_demo);
-        TextView md5tv = (TextView) findViewById(R.id.recmd5);
-        TextView picDesctv = (TextView) findViewById(R.id.recPicDesc);
+        //TextView md5tv = (TextView) findViewById(R.id.recmd5);
+        //TextView picDesctv = (TextView) findViewById(R.id.recPicDesc);
+        TextView Datetv = (TextView) findViewById(R.id.Date);
+        TextView Fnametv = (TextView) findViewById(R.id.Filmname);
 
         if (isFound) {
             new Thread(getBitMapThread).start();
 
-            md5tv.setText("MD5值: " + mResMD5);
-            picDesctv.setText("picDesc: " + mResPicDesc);
+            //md5tv.setText("");
+            //picDesctv.setText("");
+            Datetv.setText(mResDate);
+            Fnametv.setText(mResPicDesc);
+
+
+
         }
         else {
             TextView resTv = (TextView) findViewById(R.id.resText);
             resTv.setText("未找到对应图片");
-            md5tv.setText("MD5: ");
-            picDesctv.setText("picDesc:");
+            //md5tv.setText("");
+            //picDesctv.setText("");
+
         }
     }
 
