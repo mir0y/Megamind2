@@ -63,31 +63,9 @@ public class MainActivity extends Activity implements ImgListener {
             //不等于null，表示有消息传递过来，这个消息中包含元组（属性名称(String类型),属性值(File路径类型)）；
             imgFileName = savedInstanceState.getString("imgFileName");
         }
-
-
         dbtest = new db(this);
-        dbwrite = dbtest.getWritableDatabase();
-        ContentValues cv;
-
-        cv = new ContentValues();
-        cv.put("fname","手机管家广告");
-        cv.put("fmd5", "030ba16df0a060e3815392a4e4e22d63");
-        dbwrite.insert("md52name", null, cv);
-        cv = new ContentValues();
-        cv.put("fname","手机管家广告");
-        cv.put("fdate","2015-4-16");
-        dbwrite.insert("detail",null,cv);
-
-        cv = new ContentValues();
-        cv.put("fname","腾讯读书广告");
-        cv.put("fmd5", "a9a58b59625b7d413c2a0348efd41ab4");
-        dbwrite.insert("md52name",null,cv);
-        cv = new ContentValues();
-        cv.put("fname","腾讯读书广告");
-        cv.put("fdate","2015-4-16");
-        dbwrite.insert("detail",null,cv);
-
-
+        createDB.Create(dbtest);
+        dbwrite  = createDB.dbwrite;
         initMainUI();
         preInitImg();
     }
@@ -234,6 +212,12 @@ public class MainActivity extends Activity implements ImgListener {
         Intent it = new Intent(this, ResultActivity.class);
         Bundle bundle=new Bundle();
         bundle.putBoolean("ret", isFound);
+        if (!isFound) {
+            it.putExtras(bundle);
+            startActivity(it);
+            finish();
+            return;
+        }
         bundle.putString("url", mResUrl);
         bundle.putString("md5", mResMD5);
         Cursor c = dbwrite.rawQuery("select * from md52name where fmd5=?",new String[]{mResMD5});

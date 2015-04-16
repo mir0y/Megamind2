@@ -8,6 +8,7 @@ import java.net.URL;
 
 import com.example.smyconan.megamind.R;
 
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -80,8 +81,12 @@ public class ResultActivity extends Activity {
 
         }
         else {
-            TextView resTv = (TextView) findViewById(R.id.resText);
-            resTv.setText("未找到对应图片");
+
+            AlertDialog.Builder builder  = new AlertDialog.Builder(ResultActivity.this);
+            builder.setTitle("提示" ) ;
+            builder.setMessage("未找到对应的电影信息" ) ;
+            builder.setPositiveButton("确定" ,  null );
+            builder.show();
             //md5tv.setText("");
             //picDesctv.setText("");
 
